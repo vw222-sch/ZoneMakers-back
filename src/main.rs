@@ -9,7 +9,12 @@ use tower_http::cors::{CorsLayer, Any};
 use turso::Builder;
 
 struct Token {
-    token: String
+    token: String,
+    user: i32
+}
+
+struct Theme {
+    id: i32,
 }
 
 struct Badge {
