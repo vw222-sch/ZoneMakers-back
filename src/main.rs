@@ -6,6 +6,32 @@ use axum::{
 };
 use serde_json::json;
 use tower_http::cors::{CorsLayer, Any};
+use turso::Builder;
+
+struct Token {
+    token: String
+}
+
+struct Badge {
+    id: i32,
+    image: String,
+    title: String
+}
+
+struct User {
+    id: i32,
+    username: String,
+    email: String,
+    password: String,
+    level: i32,
+    badges: Vec<i32>,
+    banner_img: String,
+    theme: i32,
+    reputation: i32,
+    pinned_badges: Vec<i32>,
+    avatar: String,
+    verified: bool
+}
 
 #[tokio::main]
 async fn main() {
@@ -17,6 +43,8 @@ async fn main() {
     let app = Router::new()
         .route("/", get(root_handler))
         .layer(cors);
+
+//    test();
 
     println!("http://localhost:3000");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
