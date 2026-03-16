@@ -12,17 +12,6 @@ mod get_user;
 mod post_user;
 mod get_badge;
 use crate::{get_badge::get_badge_id_handler, get_user::get_user_id_handler, post_user::post_user_handler};
-/*
-GET  /user {user_id} -> User{}
-GET  /signup {username, email, password (hash)} -> token
-GET  /region ?????
-POST /login {email, password (hash)} -> token
-POST /support {subject, description, user_id, timestamp}
-POST /news {subject, description, img: [str], user_id, timestamp}
-???? DELETE /user/:id/:token
-
-token: jwt (id (userid), key (hash pass))
-*/
 
 #[derive(Debug, Serialize, Deserialize)]
 struct TokenClaims {

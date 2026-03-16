@@ -34,11 +34,14 @@ pub async fn post_user_handler(
         );
     }
 
-    let mut rows = connection
+    let rows = connection
         .query("select max(id) + 1 as id from users", ())
-        .await
-        .unwrap();
-    let id = rows.next().await.unwrap().unwrap().get::<i32>(0).unwrap();
+        .await;
+    let id: i32;
+    match rows {
+        Ok(mut rows) => id = rows.next().await.unwrap().unwrap().get::<i32>(0).unwrap(),
+        Err(_) => id = 1
+    }
     let claims = TokenClaims {
         id: id,
         // email: payload.email.clone(),
@@ -70,6 +73,16 @@ pub async fn post_user_handler(
                 "[]",
                 "",
                 0,
+            ),
+        )
+        .await
+        .unwrap();
+    let _insert2 = connection
+        .execute(
+            "insert into tokens (id, token) values (?, ?)",
+            (
+                id,
+                token.to_owned(),
             ),
         )
         .await
