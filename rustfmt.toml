@@ -1,0 +1,4 @@
+# it is 2026
+# by increasing this to 120, no readibility at all is lost but 20 lines of unnecessary newlines are saved
+max_width = 120
+fn_call_width = 120

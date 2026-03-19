@@ -8,10 +8,11 @@ use serde::{Deserialize, Serialize};
 use tower_http::cors::{Any, CorsLayer};
 use turso::{Builder, Connection, Row};
 
+mod get_badge;
 mod get_user;
 mod post_user;
-mod get_badge;
-use crate::{get_badge::get_badge_id_handler, get_user::get_user_id_handler, post_user::post_user_handler};
+mod post_login;
+use crate::{get_badge::get_badge_id_handler, get_user::get_user_id_handler, post_login::post_login_handler, post_user::post_user_handler};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct TokenClaims {
@@ -87,14 +88,11 @@ struct State {
 #[tokio::main]
 async fn main() {
     // networking
-    let cors = CorsLayer::new()
-        .allow_origin(Any)
-        .allow_methods(Any)
-        .allow_headers(Any);
+    let cors = CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(Any);
     let db = Builder::new_local("./db.sqlite")
         .build()
         .await
-        .expect("issues");
+        .expect("Could not open database"); // should be impossible, but who knows
     let connection = db.connect().unwrap();
     let state = Arc::new(State { connection });
 
@@ -103,6 +101,7 @@ async fn main() {
         .route("/badge/{id}", get(get_badge_id_handler))
         .route("/user/{id}", get(get_user_id_handler))
         .route("/register", post(post_user_handler))
+        .route("/login", post(post_login_handler))
         .layer(Extension(state))
         .layer(cors);
 
