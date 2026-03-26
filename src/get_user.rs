@@ -7,7 +7,7 @@ use turso::Row;
 
 use crate::{Id, State, collect_rows};
 #[derive(Serialize)]
-struct GetUser {
+struct GottenUser {
     id: i32,
     username: String,
     handle: String,
@@ -21,9 +21,9 @@ struct GetUser {
     avatar: String,
     verified: bool,
 }
-impl GetUser {
+impl GottenUser {
     fn from_row(row: Row) -> Self {
-        GetUser {
+        GottenUser {
             id: row.get(0).unwrap(),
             username: row.get(1).unwrap(),
             handle: row.get(2).unwrap(),
@@ -50,7 +50,7 @@ pub async fn get_user_id_handler(
         .query("select * from users where id=?", (payload.id,))
         .await
         .unwrap();
-    let v = collect_rows(rows, GetUser::from_row).await;
+    let v = collect_rows(rows, GottenUser::from_row).await;
     match v.len() {
         0 => (
             StatusCode::NOT_FOUND,

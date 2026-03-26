@@ -2,23 +2,28 @@ use std::sync::Arc;
 
 use axum::{
     Extension, Router,
-    routing::{get, post},
+    routing::{get, post, put},
 };
 use serde::{Deserialize, Serialize};
 use tower_http::cors::{Any, CorsLayer};
 use turso::{Builder, Connection, Row};
 
+mod delete_user;
 mod get_badge;
 mod get_user;
-mod post_user;
 mod post_login;
-use crate::{get_badge::get_badge_id_handler, get_user::get_user_id_handler, post_login::post_login_handler, post_user::post_user_handler};
+mod post_user;
+mod put_user;
+use crate::{
+    delete_user::delete_user_handler, get_badge::get_badge_id_handler, get_user::get_user_id_handler,
+    post_login::post_login_handler, post_user::post_user_handler, put_user::put_user_handler
+};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct TokenClaims {
     id: i32,
     username: String,
-    password: String,
+    exp: u64
 }
 
 #[allow(unused)]
@@ -99,9 +104,11 @@ async fn main() {
     let app = Router::new()
         //.route("/", get(root_handler))
         .route("/badge/{id}", get(get_badge_id_handler))
-        .route("/user/{id}", get(get_user_id_handler))
+        .route("/user/{id}", get(get_user_id_handler).delete(delete_user_handler))
         .route("/register", post(post_user_handler))
         .route("/login", post(post_login_handler))
+        .route("/user", put(put_user_handler))
+        // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))
         .layer(cors);
 
