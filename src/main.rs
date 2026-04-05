@@ -8,13 +8,8 @@ use serde::{Deserialize, Serialize};
 use tower_http::cors::{Any, CorsLayer};
 use turso::{Builder, Connection, Row};
 
-mod delete_user;
-mod get_badge;
-mod get_user;
-mod post_login;
-mod post_user;
-mod put_user;
-use crate::{
+mod endpoints;
+use crate::endpoints::{
     delete_user::delete_user_handler, get_badge::get_badge_id_handler, get_user::get_user_id_handler,
     post_login::post_login_handler, post_user::post_user_handler, put_user::put_user_handler
 };

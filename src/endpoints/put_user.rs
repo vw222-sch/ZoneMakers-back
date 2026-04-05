@@ -39,7 +39,7 @@ pub async fn put_user_handler(
 
     connection
         .execute(
-            "update users set email='?', password='?', username='?', bio='?', pinned_badges='?' where id='?'",
+            "update users set email=?, password=?, username=?, bio=?, pinned_badges=? where id=?",
             (
                 payload.email.clone(),
                 payload.password.clone(),
