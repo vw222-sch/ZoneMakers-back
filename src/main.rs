@@ -12,8 +12,8 @@ mod endpoints;
 use crate::endpoints::{
     delete_user::delete_user_handler, get_badge::get_badge_id_handler, get_user::get_user_id_handler,
     patch_avatar::patch_avatar_handler, patch_banner::patch_banner_handler, patch_bio::patch_bio_handler,
-    patch_email::patch_email_handler, patch_name::patch_name_handler, post_login::post_login_handler,
-    post_user::post_user_handler, patch_pinned_badges::patch_pinned_badges_handler
+    patch_email::patch_email_handler, patch_name::patch_name_handler, patch_password::patch_password_handler,
+    patch_pinned_badges::patch_pinned_badges_handler, post_login::post_login_handler, post_user::post_user_handler,
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -110,6 +110,7 @@ async fn main() {
         .route("/user/banner", patch(patch_banner_handler))
         .route("/user/bio", patch(patch_bio_handler))
         .route("/user/pinned_badges", patch(patch_pinned_badges_handler))
+        .route("/user/password", patch(patch_password_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))

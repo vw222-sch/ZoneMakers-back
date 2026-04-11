@@ -9,3 +9,4 @@ pub mod patch_avatar;
 pub mod patch_banner;
 pub mod patch_bio;
 pub mod patch_pinned_badges;
+pub mod patch_password;
