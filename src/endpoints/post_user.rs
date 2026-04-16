@@ -75,5 +75,5 @@ pub async fn post_user_handler(
         .await
         .unwrap();
 
-    (StatusCode::OK, Json(json!(token)))
+    (StatusCode::OK, Json(json!({"token": token, "id": claims.id})))
 }

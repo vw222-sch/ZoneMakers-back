@@ -1,11 +1,10 @@
 use std::sync::Arc;
 
 use axum::{Extension, Json, http::StatusCode};
-use jsonwebtoken::{DecodingKey, Validation, decode};
 use serde::Deserialize;
 use serde_json::json;
 
-use crate::{State, TokenClaims};
+use crate::{State, TokenClaims, token_to_claims};
 
 #[derive(Deserialize)]
 pub struct PatchBanner {
@@ -19,14 +18,11 @@ pub async fn patch_banner_handler(
 ) -> (StatusCode, Json<serde_json::Value>) {
     let connection = &state.connection;
 
-    let valid = decode::<TokenClaims>(
-        payload.token.clone(),
-        &DecodingKey::from_secret("super secret key placeholder".as_ref()),
-        &Validation::default(),
-    );
-    let claims = match valid {
-        Ok(data) => data.claims,
-        Err(_) => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Incorrect credentials"}))),
+    let opt = token_to_claims(&payload.token);
+    let claims: TokenClaims;
+    match opt {
+        Some(data) => claims = data,
+        None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Incorrect credentials"}))),
     };
 
     let params = (payload.new_banner.clone(), claims.id);

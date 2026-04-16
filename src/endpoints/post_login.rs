@@ -4,7 +4,7 @@ use axum::{Extension, Json, http::StatusCode};
 use serde::Deserialize;
 use serde_json::json;
 
-use crate::State;
+use crate::{State, token_to_claims};
 
 #[derive(Deserialize)]
 pub struct LoginUser {
@@ -29,6 +29,7 @@ pub async fn post_login_handler(
         Some(token_ok) => token = token_ok.get(0).unwrap(),
         None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Incorrect credentials"}))),
     }
+    let claims = token_to_claims(&token);
 
-    (StatusCode::OK, Json(json!(token)))
+    (StatusCode::OK, Json(json!({"token": token, "id": claims.unwrap().id})))
 }

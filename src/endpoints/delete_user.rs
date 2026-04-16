@@ -1,11 +1,10 @@
 use std::sync::Arc;
 
 use axum::{Extension, Json, extract::Path, http::StatusCode};
-use jsonwebtoken::{DecodingKey, Validation, decode};
 use serde::Deserialize;
 use serde_json::json;
 
-use crate::{State, TokenClaims};
+use crate::{State, TokenClaims, token_to_claims};
 
 #[derive(Deserialize)]
 pub struct Token {
@@ -18,20 +17,20 @@ pub async fn delete_user_handler(
 ) -> (StatusCode, Json<serde_json::Value>) {
     let connection = &state.connection;
 
-    let valid = decode::<TokenClaims>(
-        payload.id.clone(),
-        &DecodingKey::from_secret("super secret key placeholder".as_ref()),
-        &Validation::default(),
-    );
-    let id = match valid {
-        Ok(data) => data.claims.id,
-        Err(_) => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Incorrect credentials"}))),
+    let opt = token_to_claims(&payload.id);
+    let claims: TokenClaims;
+    match opt {
+        Some(data) => claims = data,
+        None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Incorrect credentials"}))),
     };
 
     connection
-        .execute("delete from tokens where user=?", (id,))
+        .execute("delete from tokens where user=?", (claims.id,))
         .await
         .unwrap();
-    connection.execute("delete from users where id=?", (id,)).await.unwrap();
+    connection
+        .execute("delete from users where id=?", (claims.id,))
+        .await
+        .unwrap();
     (StatusCode::OK, Json(json!("Deleted")))
 }

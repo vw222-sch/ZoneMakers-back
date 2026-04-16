@@ -4,16 +4,25 @@ use axum::{
     Extension, Router,
     routing::{get, patch, post},
 };
+use jsonwebtoken::{DecodingKey, Validation, decode};
 use serde::{Deserialize, Serialize};
 use tower_http::cors::{Any, CorsLayer};
 use turso::{Builder, Connection, Row};
 
 mod endpoints;
 use crate::endpoints::{
-    delete_user::delete_user_handler, get_badge::get_badge_id_handler, get_user::get_user_id_handler,
-    patch_avatar::patch_avatar_handler, patch_banner::patch_banner_handler, patch_bio::patch_bio_handler,
-    patch_email::patch_email_handler, patch_name::patch_name_handler, patch_password::patch_password_handler,
-    patch_pinned_badges::patch_pinned_badges_handler, post_login::post_login_handler, post_user::post_user_handler,
+    delete_user::{delete_user_handler},
+    get_badge::get_badge_id_handler,
+    get_user::get_user_id_handler,
+    patch_avatar::patch_avatar_handler,
+    patch_banner::patch_banner_handler,
+    patch_bio::patch_bio_handler,
+    patch_email::patch_email_handler,
+    patch_name::patch_name_handler,
+    patch_password::patch_password_handler,
+    patch_pinned_badges::patch_pinned_badges_handler,
+    post_login::post_login_handler,
+    post_user::post_user_handler,
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -61,6 +70,18 @@ struct User {
     pinned_badges: Vec<i32>,
     avatar: String,
     verified: bool,
+}
+fn token_to_claims(token: &str) -> Option<TokenClaims> {
+    let valid = decode::<TokenClaims>(
+        token,
+        &DecodingKey::from_secret("super secret key placeholder".as_ref()),
+        &Validation::default(),
+    );
+    let claims = match valid {
+        Ok(data) => data.claims,
+        Err(_) => return None,
+    };
+    return Some(claims);
 }
 impl User {
     fn from_row(row: Row) -> Self {
