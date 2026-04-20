@@ -65,9 +65,10 @@ pub async fn post_user_handler(
         "[]", // pinned_badges
         "",   // avatar
         0,    // verified
+        0,    // admin
     );
     connection
-        .execute("insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new_user_params)
+        .execute("insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new_user_params)
         .await
         .unwrap();
     connection

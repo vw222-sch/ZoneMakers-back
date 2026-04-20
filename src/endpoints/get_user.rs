@@ -20,6 +20,7 @@ struct GottenUser {
     pinned_badges: Vec<i32>,
     avatar: String,
     verified: bool,
+    admin: bool,
 }
 impl GottenUser {
     fn from_row(row: Row) -> Self {
@@ -36,6 +37,7 @@ impl GottenUser {
             pinned_badges: serde_json::from_str(&row.get::<String>(11).unwrap()).unwrap(),
             avatar: row.get(12).unwrap(),
             verified: row.get(13).unwrap(),
+            admin: row.get::<i32>(14).unwrap() == 1,
         }
     }
 }

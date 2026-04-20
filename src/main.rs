@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use axum::{
     Extension, Router,
-    routing::{get, patch, post},
+    routing::{get, patch, post, delete},
 };
 use jsonwebtoken::{DecodingKey, Validation, decode};
 use serde::{Deserialize, Serialize};
@@ -23,6 +23,9 @@ use crate::endpoints::{
     patch_pinned_badges::patch_pinned_badges_handler,
     post_login::post_login_handler,
     post_user::post_user_handler,
+    post_support::post_support_handler,
+    get_admin_support_all::get_admin_support_all_handler,
+    delete_admin_support::delete_admin_support_handler,
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -70,6 +73,7 @@ struct User {
     pinned_badges: Vec<i32>,
     avatar: String,
     verified: bool,
+    admin: bool,
 }
 fn token_to_claims(token: &str) -> Option<TokenClaims> {
     let valid = decode::<TokenClaims>(
@@ -100,6 +104,7 @@ impl User {
             pinned_badges: serde_json::from_str(&row.get::<String>(11).unwrap()).unwrap(),
             avatar: row.get(12).unwrap(),
             verified: row.get(13).unwrap(),
+            admin: row.get::<i32>(14).unwrap() == 1,
         }
     }
 }
@@ -132,6 +137,9 @@ async fn main() {
         .route("/user/bio", patch(patch_bio_handler))
         .route("/user/pinned_badges", patch(patch_pinned_badges_handler))
         .route("/user/password", patch(patch_password_handler))
+        .route("/support", post(post_support_handler))
+        .route("/admin/support/all", get(get_admin_support_all_handler))
+        .route("/admin/support/{id}", delete(delete_admin_support_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))
