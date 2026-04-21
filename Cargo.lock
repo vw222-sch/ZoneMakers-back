@@ -299,6 +299,7 @@ dependencies = [
  "iana-time-zone",
  "js-sys",
  "num-traits",
+ "serde",
  "wasm-bindgen",
  "windows-link",
 ]
@@ -1843,6 +1844,7 @@ name = "schoolproj"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "chrono",
  "jsonwebtoken",
  "serde",
  "serde_json",

@@ -16,3 +16,7 @@ pub mod get_admin_support_all;
 pub mod delete_admin_support;
 pub mod post_badge;
 pub mod delete_badge;
+pub mod get_notifications;
+pub mod patch_notification_read;
+pub mod delete_notification;
+pub mod post_notification;

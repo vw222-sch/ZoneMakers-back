@@ -29,6 +29,10 @@ use crate::endpoints::{
     delete_admin_support::delete_admin_support_handler,
     post_badge::post_badge_handler,
     delete_badge::delete_badge_handler,
+    get_notifications::get_notifications_handler,
+    patch_notification_read::patch_notification_read_handler,
+    delete_notification::delete_notification_handler,
+    post_notification::post_notification_handler,
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -146,6 +150,9 @@ async fn main() {
         .route("/support", post(post_support_handler))
         .route("/admin/support/all", get(get_admin_support_all_handler))
         .route("/admin/support/{id}", delete(delete_admin_support_handler))
+        .route("/notifications", get(get_notifications_handler).post(post_notification_handler))
+        .route("/notifications/read/{id}", patch(patch_notification_read_handler))
+        .route("/notifications/{id}", delete(delete_notification_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))
