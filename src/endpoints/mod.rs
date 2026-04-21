@@ -14,3 +14,5 @@ pub mod patch_password;
 pub mod post_support;
 pub mod get_admin_support_all;
 pub mod delete_admin_support;
+pub mod post_badge;
+pub mod delete_badge;

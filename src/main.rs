@@ -27,6 +27,8 @@ use crate::endpoints::{
     post_support::post_support_handler,
     get_admin_support_all::get_admin_support_all_handler,
     delete_admin_support::delete_admin_support_handler,
+    post_badge::post_badge_handler,
+    delete_badge::delete_badge_handler,
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -128,7 +130,8 @@ async fn main() {
 
     let app = Router::new()
         //.route("/", get(root_handler))
-        .route("/badge/{id}", get(get_badge_id_handler))
+        .route("/badge", post(post_badge_handler))
+        .route("/badge/{id}", get(get_badge_id_handler).delete(delete_badge_handler))
         .route("/user/{id}", get(get_user_id_handler).delete(delete_user_handler))
         .route("/user/handle/{handle}", get(get_user_handle_handler))
         .route("/register", post(post_user_handler))
