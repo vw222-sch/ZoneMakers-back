@@ -19,6 +19,7 @@ use crate::endpoints::{
     patch_banner::patch_banner_handler,
     patch_bio::patch_bio_handler,
     patch_email::patch_email_handler,
+    patch_handle::patch_handle_handler,
     patch_name::patch_name_handler,
     patch_password::patch_password_handler,
     patch_pinned_badges::patch_pinned_badges_handler,
@@ -140,6 +141,7 @@ async fn main() {
         .route("/user/handle/{handle}", get(get_user_handle_handler))
         .route("/register", post(post_user_handler))
         .route("/login", post(post_login_handler))
+        .route("/user/handle", patch(patch_handle_handler))
         .route("/user/name", patch(patch_name_handler))
         .route("/user/email", patch(patch_email_handler))
         .route("/user/avatar", patch(patch_avatar_handler))
