@@ -11,29 +11,29 @@ use turso::{Builder, Connection, Row};
 
 mod endpoints;
 use crate::endpoints::{
-    delete_user::{delete_user_handler},
-    get_badge::get_badge_id_handler,
-    get_user::get_user_id_handler,
-    get_user_handle::get_user_handle_handler,
-    patch_avatar::patch_avatar_handler,
-    patch_banner::patch_banner_handler,
-    patch_bio::patch_bio_handler,
-    patch_email::patch_email_handler,
-    patch_handle::patch_handle_handler,
-    patch_name::patch_name_handler,
-    patch_password::patch_password_handler,
-    patch_pinned_badges::patch_pinned_badges_handler,
-    post_login::post_login_handler,
-    post_user::post_user_handler,
-    post_support::post_support_handler,
-    get_admin_support_all::get_admin_support_all_handler,
-    delete_admin_support::delete_admin_support_handler,
-    post_badge::post_badge_handler,
-    delete_badge::delete_badge_handler,
-    get_notifications::get_notifications_handler,
-    patch_notification_read::patch_notification_read_handler,
-    delete_notification::delete_notification_handler,
-    post_notification::post_notification_handler,
+    auth::{post_login::post_login_handler, post_user::post_user_handler},
+    users::{
+        delete_user::delete_user_handler, get_user::get_user_id_handler,
+        get_user_handle::get_user_handle_handler, patch_avatar::patch_avatar_handler,
+        patch_banner::patch_banner_handler, patch_bio::patch_bio_handler,
+        patch_email::patch_email_handler, patch_handle::patch_handle_handler,
+        patch_name::patch_name_handler, patch_password::patch_password_handler,
+        patch_pinned_badges::patch_pinned_badges_handler,
+    },
+    badges::{
+        delete_badge::delete_badge_handler, get_badge::get_badge_id_handler,
+        post_badge::post_badge_handler,
+    },
+    support::{
+        delete_admin_support::delete_admin_support_handler,
+        get_admin_support_all::get_admin_support_all_handler, post_support::post_support_handler,
+    },
+    notifications::{
+        delete_notification::delete_notification_handler,
+        get_notifications::get_notifications_handler,
+        patch_notification_read::patch_notification_read_handler,
+        post_notification::post_notification_handler,
+    },
 };
 
 #[derive(Debug, Serialize, Deserialize)]

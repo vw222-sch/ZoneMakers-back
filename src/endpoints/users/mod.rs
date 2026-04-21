@@ -1,0 +1,11 @@
+pub mod delete_user;
+pub mod get_user_handle;
+pub mod get_user;
+pub mod patch_avatar;
+pub mod patch_banner;
+pub mod patch_bio;
+pub mod patch_email;
+pub mod patch_handle;
+pub mod patch_name;
+pub mod patch_password;
+pub mod patch_pinned_badges;
