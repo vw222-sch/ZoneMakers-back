@@ -84,7 +84,6 @@ struct User {
     admin: bool,
 }
 fn token_to_claims(token: &str) -> Option<TokenClaims> {
-    let token = token.strip_prefix("Bearer ").unwrap_or(token);
     let valid = decode::<TokenClaims>(
         token,
         &DecodingKey::from_secret("super secret key placeholder".as_ref()),
