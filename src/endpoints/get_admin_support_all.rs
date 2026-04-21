@@ -1,16 +1,10 @@
 use std::sync::Arc;
 
-use axum::{Extension, Json, http::StatusCode, extract::Query};
-use serde::Deserialize;
+use axum::{Extension, Json, http::{StatusCode, HeaderMap}};
 use serde_json::json;
 use turso::Row;
 
 use crate::{State, TokenClaims, token_to_claims, collect_rows};
-
-#[derive(Deserialize)]
-pub struct AdminQuery {
-    pub token: String,
-}
 
 #[derive(serde::Serialize)]
 pub struct Support {
@@ -39,15 +33,20 @@ impl Support {
 
 pub async fn get_admin_support_all_handler(
     state: Extension<Arc<State>>,
-    query: Query<AdminQuery>,
+    headers: HeaderMap,
 ) -> (StatusCode, Json<serde_json::Value>) {
     let connection = &state.connection;
 
-    let opt = token_to_claims(&query.token);
+    let token = match headers.get("Token").and_then(|h| h.to_str().ok()) {
+        Some(t) => t,
+        None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Missing token"}))),
+    };
+
+    let opt = token_to_claims(token);
     let claims: TokenClaims;
     match opt {
         Some(data) => claims = data,
-        None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Incorrect credentials"}))),
+        None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Invalid token"}))),
     };
 
     // Check if user is admin
