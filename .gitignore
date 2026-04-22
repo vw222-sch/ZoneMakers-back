@@ -5,3 +5,4 @@ help
 help/**
 .gitignore
 src/endpoints/todo.txt
+bin/**
