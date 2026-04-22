@@ -34,6 +34,11 @@ use crate::endpoints::{
         patch_notification_read::patch_notification_read_handler,
         post_notification::post_notification_handler,
     },
+    posts::{
+        delete_post::delete_post_handler, get_post_replies::get_post_replies_handler,
+        get_posts::get_posts_handler, patch_post::patch_post_handler,
+        post_post::post_post_handler,
+    },
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -117,6 +122,33 @@ impl User {
     }
 }
 
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Post {
+    pub id: String,
+    pub author_id: i32,
+    pub content: String,
+    pub image: String,
+    pub replies_count: i32,
+    pub created_at: String,
+    pub region: i32,
+    pub reply_id: String,
+}
+
+impl Post {
+    pub fn from_row(row: Row) -> Self {
+        Post {
+            id: row.get(0).unwrap(),
+            author_id: row.get(1).unwrap(),
+            content: row.get(2).unwrap(),
+            image: row.get(3).unwrap(),
+            replies_count: row.get(4).unwrap(),
+            created_at: row.get(5).unwrap(),
+            region: row.get(6).unwrap(),
+            reply_id: row.get(7).unwrap(),
+        }
+    }
+}
+
 struct State {
     connection: Connection,
 }
@@ -154,6 +186,10 @@ async fn main() {
         .route("/notifications", get(get_notifications_handler).post(post_notification_handler))
         .route("/notifications/read/{id}", patch(patch_notification_read_handler))
         .route("/notifications/{id}", delete(delete_notification_handler))
+        .route("/posts/{region}/{page}", get(get_posts_handler))
+        .route("/posts/{id}/replies", get(get_post_replies_handler))
+        .route("/posts", post(post_post_handler))
+        .route("/posts/{id}", patch(patch_post_handler).delete(delete_post_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))

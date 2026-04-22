@@ -11,4 +11,5 @@ tokio = {version = "1.49.0", features = ["full"]}
 tower-http = {version = "0.6.8", features = ["cors"]}
 turso = "0.4.4"
 chrono = { version = "0.4.40", features = ["serde"] }
+uuid = { version = "1.13.1", features = ["v4", "serde"] }
 jsonwebtoken = { version = "10", features = ["rust_crypto"] }
