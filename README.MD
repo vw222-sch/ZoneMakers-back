@@ -37,6 +37,22 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 ### Support
 - [x] POST /support [Header: Token] {subject, topic, description} -> "OK" | Error (400)
 
+### Posts
+- [x] GET /posts/{region}/{page} -> [Posts] | Error (500)
+- [x] GET /posts/{id}/replies -> [Replies] | Error (500)
+- [x] POST /posts [Header: Token] {content, image?, region, reply_id?} -> {id} | Error (401/500)
+- [x] PATCH /posts/{id} [Header: Token] {content?, image?} -> "OK" | Error (401/404)
+- [x] DELETE /posts/{id} [Header: Token] -> "Deleted" | Error (401/404)
+
+### Zones
+- [x] GET /zones -> [Zone Summaries] | Error (500)
+- [x] GET /zones/{id} -> Zone data | Error (404/500)
+- [x] GET /zones/search/{query} -> [Zone Summaries] | Error (500)
+- [x] POST /zones/requests [Header: Token] {name, coordinates, hazard_level, description, hazards, images} -> "Zone request created" | Error (401/500)
+
 ### Admin (Restricted)
 - [x] GET /admin/support/all [Header: Token (Admin)] -> [Support requests] | Error (403)
 - [x] DELETE /admin/support/{id} [Header: Token (Admin)] -> "Deleted" | Error (403)
+- [x] GET /admin/zones/requests [Header: Token (Admin)] -> [Zone requests] | Error (403/500)
+- [x] POST /admin/zones/{id}/accept [Header: Token (Admin)] -> "Zone request accepted" | Error (403/500)
+- [x] POST /admin/zones/{id}/reject [Header: Token (Admin)] -> "Zone request rejected (deleted)" | Error (403/500)

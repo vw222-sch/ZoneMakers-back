@@ -39,6 +39,13 @@ use crate::endpoints::{
         get_posts::get_posts_handler, patch_post::patch_post_handler,
         post_post::post_post_handler,
     },
+    zones::{
+        get_zones::get_zones_handler, get_zone_id::get_zone_id_handler,
+        get_zones_search::get_zones_search_handler, post_zone_request::post_zone_request_handler,
+        get_admin_zones_requests::get_admin_zones_requests_handler,
+        post_admin_accept_zone::post_admin_accept_zone_handler,
+        post_admin_reject_zone::post_admin_reject_zone_handler,
+    },
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -149,6 +156,33 @@ impl Post {
     }
 }
 
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Zone {
+    pub id: i32,
+    pub name: String,
+    pub coordinates: String,
+    pub hazard_level: String,
+    pub description: String,
+    pub hazards: String,
+    pub images: String,
+    pub is_request: bool,
+}
+
+impl Zone {
+    pub fn from_row(row: Row) -> Self {
+        Zone {
+            id: row.get(0).unwrap(),
+            name: row.get(1).unwrap(),
+            coordinates: row.get(2).unwrap(),
+            hazard_level: row.get(3).unwrap(),
+            description: row.get(4).unwrap(),
+            hazards: row.get(5).unwrap(),
+            images: row.get(6).unwrap(),
+            is_request: row.get::<i32>(7).unwrap() == 1,
+        }
+    }
+}
+
 struct State {
     connection: Connection,
 }
@@ -190,6 +224,13 @@ async fn main() {
         .route("/posts/{id}/replies", get(get_post_replies_handler))
         .route("/posts", post(post_post_handler))
         .route("/posts/{id}", patch(patch_post_handler).delete(delete_post_handler))
+        .route("/zones", get(get_zones_handler))
+        .route("/zones/{id}", get(get_zone_id_handler))
+        .route("/zones/search/{query}", get(get_zones_search_handler))
+        .route("/zones/requests", post(post_zone_request_handler))
+        .route("/admin/zones/requests", get(get_admin_zones_requests_handler))
+        .route("/admin/zones/{id}/accept", post(post_admin_accept_zone_handler))
+        .route("/admin/zones/{id}/reject", post(post_admin_reject_zone_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))
