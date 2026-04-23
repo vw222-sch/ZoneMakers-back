@@ -19,6 +19,7 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] PATCH /user/email [Header: Token] {new_email} -> "OK" | Error
 - [x] PATCH /user/avatar [Header: Token] {new_avatar} -> "OK" | Error
 - [x] PATCH /user/banner [Header: Token] {new_banner} -> "OK" | Error
+- [x] PATCH /user/theme [Header: Token] {new_theme} -> "OK" | Error
 - [x] PATCH /user/bio [Header: Token] {new_bio} -> "OK" | Error
 - [x] PATCH /user/pinned_badges [Header: Token] {new_pinned_badges} -> "OK" | Error
 - [x] PATCH /user/password [Header: Token] {new_password} -> "OK" | Error

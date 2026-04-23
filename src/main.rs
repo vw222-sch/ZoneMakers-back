@@ -11,41 +11,31 @@ use turso::{Builder, Connection, Row};
 
 mod endpoints;
 use crate::endpoints::{
-    auth::{post_login::post_login_handler, post_user::post_user_handler},
-    users::{
+    auth::{post_login::post_login_handler, post_user::post_user_handler}, badges::{
+        delete_badge::delete_badge_handler, get_badge::get_badge_id_handler,
+        post_badge::post_badge_handler,
+    }, notifications::{
+        delete_notification::delete_notification_handler,
+        get_notifications::get_notifications_handler,
+        patch_notification_read::patch_notification_read_handler,
+        post_notification::post_notification_handler,
+    }, posts::{
+        delete_post::delete_post_handler, get_post_replies::get_post_replies_handler,
+        get_posts::get_posts_handler, patch_post::patch_post_handler,
+        post_post::post_post_handler,
+    }, support::{
+        delete_admin_support::delete_admin_support_handler,
+        get_admin_support_all::get_admin_support_all_handler, post_support::post_support_handler,
+    }, users::{
         delete_user::delete_user_handler, get_user::get_user_id_handler,
         get_user_handle::get_user_handle_handler, patch_avatar::patch_avatar_handler,
         patch_banner::patch_banner_handler, patch_bio::patch_bio_handler,
         patch_email::patch_email_handler, patch_handle::patch_handle_handler,
         patch_name::patch_name_handler, patch_password::patch_password_handler,
-        patch_pinned_badges::patch_pinned_badges_handler,
-    },
-    badges::{
-        delete_badge::delete_badge_handler, get_badge::get_badge_id_handler,
-        post_badge::post_badge_handler,
-    },
-    support::{
-        delete_admin_support::delete_admin_support_handler,
-        get_admin_support_all::get_admin_support_all_handler, post_support::post_support_handler,
-    },
-    notifications::{
-        delete_notification::delete_notification_handler,
-        get_notifications::get_notifications_handler,
-        patch_notification_read::patch_notification_read_handler,
-        post_notification::post_notification_handler,
-    },
-    posts::{
-        delete_post::delete_post_handler, get_post_replies::get_post_replies_handler,
-        get_posts::get_posts_handler, patch_post::patch_post_handler,
-        post_post::post_post_handler,
-    },
-    zones::{
-        get_zones::get_zones_handler, get_zone_id::get_zone_id_handler,
-        get_zones_search::get_zones_search_handler, post_zone_request::post_zone_request_handler,
-        get_admin_zones_requests::get_admin_zones_requests_handler,
-        post_admin_accept_zone::post_admin_accept_zone_handler,
-        post_admin_reject_zone::post_admin_reject_zone_handler,
-    },
+        patch_pinned_badges::patch_pinned_badges_handler, patch_theme::patch_theme_handler,
+    }, zones::{
+        get_admin_zones_requests::get_admin_zones_requests_handler, get_zone_id::get_zone_id_handler, get_zones::get_zones_handler, get_zones_search::get_zones_search_handler, post_admin_accept_zone::post_admin_accept_zone_handler, post_admin_reject_zone::post_admin_reject_zone_handler, post_zone_request::post_zone_request_handler
+    }
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -209,6 +199,7 @@ async fn main() {
         .route("/user/handle", patch(patch_handle_handler))
         .route("/user/name", patch(patch_name_handler))
         .route("/user/email", patch(patch_email_handler))
+        .route("/user/theme", patch(patch_theme_handler))
         .route("/user/avatar", patch(patch_avatar_handler))
         .route("/user/banner", patch(patch_banner_handler))
         .route("/user/bio", patch(patch_bio_handler))

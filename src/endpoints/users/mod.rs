@@ -9,3 +9,4 @@ pub mod patch_handle;
 pub mod patch_name;
 pub mod patch_password;
 pub mod patch_pinned_badges;
+pub mod patch_theme;
