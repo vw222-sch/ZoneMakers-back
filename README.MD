@@ -39,8 +39,8 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] POST /support [Header: Token] {subject, topic, description} -> "OK" | Error (400)
 
 ### Posts
-- [x] GET /posts/{region}/{page} -> [Posts] | Error (500)
-- [x] GET /posts/{id}/replies -> [Replies] | Error (500)
+- [x] GET /posts/{region}/{page} -> [Posts (with author user data)] | Error (500)
+- [x] GET /posts/{id}/replies -> [Replies (with author user data)] | Error (500)
 - [x] POST /posts [Header: Token] {content, image?, region, reply_id?} -> {id} | Error (401/500)
 - [x] PATCH /posts/{id} [Header: Token] {content?, image?} -> "OK" | Error (401/404)
 - [x] DELETE /posts/{id} [Header: Token] -> "Deleted" | Error (401/404)
@@ -50,6 +50,17 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] GET /zones/{id} -> Zone data | Error (404/500)
 - [x] GET /zones/search/{query} -> [Zone Summaries] | Error (500)
 - [x] POST /zones/requests [Header: Token] {name, coordinates, hazard_level, description, hazards, images} -> "Zone request created" | Error (401/500)
+
+### Reporting
+- [x] POST /report/zone [Header: Token] {reason, report_id} -> "Report created"
+- [x] GET /report/zones/{page} [Header: Token (Admin)] -> [Reports]
+- [x] DELETE /report/zone/{id} [Header: Token (Admin)] -> "Report deleted"
+- [x] POST /report/user [Header: Token] {reason, report_id} -> "Report created"
+- [x] GET /report/users/{page} [Header: Token (Admin)] -> [Reports]
+- [x] DELETE /report/user/{id} [Header: Token (Admin)] -> "Report deleted"
+- [x] POST /report/post [Header: Token] {reason, report_id} -> "Report created"
+- [x] GET /report/posts/{page} [Header: Token (Admin)] -> [Reports]
+- [x] DELETE /report/post/{id} [Header: Token (Admin)] -> "Report deleted"
 
 ### Admin (Restricted)
 - [x] GET /admin/support/all [Header: Token (Admin)] -> [Support requests] | Error (403)
