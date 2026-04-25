@@ -5,3 +5,5 @@ pub mod post_zone_request;
 pub mod get_admin_zones_requests;
 pub mod post_admin_accept_zone;
 pub mod post_admin_reject_zone;
+pub mod delete_zone;
+pub mod put_zone;

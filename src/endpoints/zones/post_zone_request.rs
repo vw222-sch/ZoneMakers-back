@@ -26,13 +26,14 @@ pub async fn post_zone_request_handler(
         None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Missing token"}))),
     };
 
-    if token_to_claims(token).is_none() {
-        return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Invalid token"})));
-    }
+    let claims = match token_to_claims(token) {
+        Some(data) => data,
+        None => return (StatusCode::UNAUTHORIZED, Json(json!({"error": "Invalid token"}))),
+    };
 
     let insert_result = connection
         .execute(
-            "insert into zones (name, coordinates, hazard_level, description, hazards, images, is_request) values (?, ?, ?, ?, ?, ?, 1)",
+            "insert into zones (name, coordinates, hazard_level, description, hazards, images, is_request, author) values (?, ?, ?, ?, ?, ?, 1, ?)",
             (
                 payload.name,
                 payload.coordinates,
@@ -40,6 +41,7 @@ pub async fn post_zone_request_handler(
                 payload.description,
                 payload.hazards,
                 payload.images,
+                claims.id,
             ),
         )
         .await;

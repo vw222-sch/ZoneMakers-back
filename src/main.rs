@@ -34,7 +34,7 @@ use crate::endpoints::{
         patch_name::patch_name_handler, patch_password::patch_password_handler,
         patch_pinned_badges::patch_pinned_badges_handler, patch_theme::patch_theme_handler,
     }, zones::{
-        get_admin_zones_requests::get_admin_zones_requests_handler, get_zone_id::get_zone_id_handler, get_zones::get_zones_handler, get_zones_search::get_zones_search_handler, post_admin_accept_zone::post_admin_accept_zone_handler, post_admin_reject_zone::post_admin_reject_zone_handler, post_zone_request::post_zone_request_handler
+        delete_zone::delete_zone_handler, get_admin_zones_requests::get_admin_zones_requests_handler, get_zone_id::get_zone_id_handler, get_zones::get_zones_handler, get_zones_search::get_zones_search_handler, put_zone::put_zone_handler, post_admin_accept_zone::post_admin_accept_zone_handler, post_admin_reject_zone::post_admin_reject_zone_handler, post_zone_request::post_zone_request_handler
     }
 };
 
@@ -156,6 +156,7 @@ pub struct Zone {
     pub hazards: String,
     pub images: String,
     pub is_request: bool,
+    pub author: i32,
 }
 
 impl Zone {
@@ -169,6 +170,7 @@ impl Zone {
             hazards: row.get(5).unwrap(),
             images: row.get(6).unwrap(),
             is_request: row.get::<i32>(7).unwrap() == 1,
+            author: row.get(8).unwrap(),
         }
     }
 }
@@ -216,7 +218,7 @@ async fn main() {
         .route("/posts", post(post_post_handler))
         .route("/posts/{id}", patch(patch_post_handler).delete(delete_post_handler))
         .route("/zones", get(get_zones_handler))
-        .route("/zones/{id}", get(get_zone_id_handler))
+        .route("/zones/{id}", get(get_zone_id_handler).delete(delete_zone_handler).put(put_zone_handler))
         .route("/zones/search/{query}", get(get_zones_search_handler))
         .route("/zones/requests", post(post_zone_request_handler))
         .route("/admin/zones/requests", get(get_admin_zones_requests_handler))
