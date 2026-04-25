@@ -35,6 +35,10 @@ use crate::endpoints::{
         patch_pinned_badges::patch_pinned_badges_handler, patch_theme::patch_theme_handler,
     }, zones::{
         delete_zone::delete_zone_handler, get_admin_zones_requests::get_admin_zones_requests_handler, get_zone_id::get_zone_id_handler, get_zones::get_zones_handler, get_zones_search::get_zones_search_handler, put_zone::put_zone_handler, post_admin_accept_zone::post_admin_accept_zone_handler, post_admin_reject_zone::post_admin_reject_zone_handler, post_zone_request::post_zone_request_handler
+    }, reports::{
+        post_report::{post_report_zone_handler, post_report_user_handler, post_report_post_handler},
+        get_reports::{get_reports_zone_handler, get_reports_user_handler, get_reports_post_handler},
+        delete_report::{delete_report_zone_handler, delete_report_user_handler, delete_report_post_handler},
     }
 };
 
@@ -224,6 +228,15 @@ async fn main() {
         .route("/admin/zones/requests", get(get_admin_zones_requests_handler))
         .route("/admin/zones/{id}/accept", post(post_admin_accept_zone_handler))
         .route("/admin/zones/{id}/reject", post(post_admin_reject_zone_handler))
+        .route("/report/zone", post(post_report_zone_handler))
+        .route("/report/zone/{page}", get(get_reports_zone_handler))
+        .route("/report/zone/{id}", delete(delete_report_zone_handler))
+        .route("/report/user", post(post_report_user_handler))
+        .route("/report/user/{page}", get(get_reports_user_handler))
+        .route("/report/user/{id}", delete(delete_report_user_handler))
+        .route("/report/post", post(post_report_post_handler))
+        .route("/report/post/{page}", get(get_reports_post_handler))
+        .route("/report/post/{id}", delete(delete_report_post_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))
