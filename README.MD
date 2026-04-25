@@ -50,6 +50,8 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] GET /zones/{id} -> Zone data | Error (404/500)
 - [x] GET /zones/search/{query} -> [Zone Summaries] | Error (500)
 - [x] POST /zones/requests [Header: Token] {name, coordinates, hazard_level, description, hazards, images} -> "Zone request created" | Error (401/500)
+- [x] PUT /zones/{id} [Header: Token] {name?, coordinates?, hazard_level?, description?, hazards?, images?} -> "Zone updated and set to request status" | Error (401/403/404)
+- [x] DELETE /zones/{id} [Header: Token] -> "Zone deleted" | Error (401/403/404)
 
 ### Reporting
 - [x] POST /report/zone [Header: Token] {reason, report_id} -> "Report created"
