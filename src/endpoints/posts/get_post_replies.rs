@@ -10,7 +10,7 @@ pub async fn get_post_replies_handler(
 
     let rows_result = connection
         .query(
-            "select * from posts where reply_id = ? order by created_at asc",
+            "select p.*, u.username, u.handle, u.avatar, u.verified from posts p join users u on p.author_id = u.id where p.reply_id = ? order by p.created_at asc",
             (id,),
         )
         .await;

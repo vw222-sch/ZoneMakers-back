@@ -13,7 +13,7 @@ pub async fn get_posts_handler(
 
     let rows_result = connection
         .query(
-            "select * from posts where reply_id = '0' and region = ? order by created_at desc limit ? offset ?",
+            "select p.*, u.username, u.handle, u.avatar, u.verified from posts p join users u on p.author_id = u.id where p.reply_id = '0' and p.region = ? order by p.created_at desc limit ? offset ?",
             (region, limit, offset),
         )
         .await;

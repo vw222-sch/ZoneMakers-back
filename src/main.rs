@@ -133,6 +133,11 @@ pub struct Post {
     pub created_at: String,
     pub region: i32,
     pub reply_id: String,
+    // Joined user fields
+    pub username: String,
+    pub handle: String,
+    pub avatar: String,
+    pub verified: bool,
 }
 
 impl Post {
@@ -146,6 +151,10 @@ impl Post {
             created_at: row.get(5).unwrap(),
             region: row.get(6).unwrap(),
             reply_id: row.get(7).unwrap(),
+            username: row.get(8).unwrap(),
+            handle: row.get(9).unwrap(),
+            avatar: row.get(10).unwrap(),
+            verified: row.get::<i32>(11).unwrap() == 1,
         }
     }
 }
