@@ -13,6 +13,7 @@ mod endpoints;
 use crate::endpoints::{
     auth::{post_login::post_login_handler, post_user::post_user_handler}, badges::{
         delete_badge::delete_badge_handler, get_badge::get_badge_id_handler,
+        get_badge_all::get_badge_all_handler,
         post_badge::post_badge_handler,
         post_admin_grant_badge::post_admin_grant_badge_handler,
         post_admin_remove_badge::post_admin_remove_badge_handler,
@@ -235,6 +236,7 @@ async fn main() {
     let app = Router::new()
         //.route("/", get(root_handler))
         .route("/badge", post(post_badge_handler))
+        .route("/badge/all", get(get_badge_all_handler))
         .route("/badge/{id}", get(get_badge_id_handler).delete(delete_badge_handler))
         .route("/user/{id}", get(get_user_id_handler).delete(delete_user_handler))
         .route("/user/handle/{handle}", get(get_user_handle_handler))

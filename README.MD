@@ -26,6 +26,7 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] PATCH /user/password [Header: Token] {new_password} -> "OK" | Error
 
 ### Badges
+- [x] GET /badge/all -> [Badge data] | Error (500)
 - [x] GET /badge/{id} -> Badge data | Error (404)
 - [x] POST /badge [Header: Token (Admin)] {image, title} -> "Badge created" | Error (403/500)
 - [x] DELETE /badge/{id} [Header: Token (Admin)] -> "Badge deleted" | Error (403/404)
