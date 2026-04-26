@@ -14,6 +14,8 @@ use crate::endpoints::{
     auth::{post_login::post_login_handler, post_user::post_user_handler}, badges::{
         delete_badge::delete_badge_handler, get_badge::get_badge_id_handler,
         post_badge::post_badge_handler,
+        post_admin_grant_badge::post_admin_grant_badge_handler,
+        post_admin_remove_badge::post_admin_remove_badge_handler,
     }, notifications::{
         delete_notification::delete_notification_handler,
         get_notifications::get_notifications_handler,
@@ -81,7 +83,6 @@ struct User {
     bio: String,
     email: String,
     password: String,
-    level: i32,
     badges: Vec<i32>,
     banner_img: String,
     theme: i32,
@@ -112,15 +113,14 @@ impl User {
             bio: row.get(3).unwrap(),
             email: "".to_owned(),    //row.get(4).unwrap(),
             password: "".to_owned(), //row.get(5).unwrap(),
-            level: row.get(6).unwrap(),
-            badges: serde_json::from_str(&row.get::<String>(7).unwrap()).unwrap(),
-            banner_img: row.get(8).unwrap(),
-            theme: row.get(9).unwrap(),
-            reputation: row.get(10).unwrap(),
-            pinned_badges: serde_json::from_str(&row.get::<String>(11).unwrap()).unwrap(),
-            avatar: row.get(12).unwrap(),
-            verified: row.get(13).unwrap(),
-            admin: row.get::<i32>(14).unwrap() == 1,
+            badges: serde_json::from_str(&row.get::<String>(6).unwrap()).unwrap(),
+            banner_img: row.get(7).unwrap(),
+            theme: row.get(8).unwrap(),
+            reputation: row.get(9).unwrap(),
+            pinned_badges: serde_json::from_str(&row.get::<String>(10).unwrap()).unwrap(),
+            avatar: row.get(11).unwrap(),
+            verified: row.get(12).unwrap(),
+            admin: row.get::<i32>(13).unwrap() == 1,
         }
     }
 }
@@ -249,6 +249,8 @@ async fn main() {
         .route("/support", post(post_support_handler))
         .route("/admin/support/all", get(get_admin_support_all_handler))
         .route("/admin/support/{id}", delete(delete_admin_support_handler))
+        .route("/admin/badge/grant/{id}/{badge_id}", post(post_admin_grant_badge_handler))
+        .route("/admin/badge/remove/{id}/{badge_id}", post(post_admin_remove_badge_handler))
         .route("/notifications", get(get_notifications_handler).post(post_notification_handler))
         .route("/notifications/read/{id}", patch(patch_notification_read_handler))
         .route("/notifications/{id}", delete(delete_notification_handler))

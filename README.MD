@@ -70,6 +70,8 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] DELETE /travel/{id} [Header: Token] -> "Travel log deleted" | Error (401/403/404)
 
 ### Admin (Restricted)
+- [x] POST /admin/badge/grant/{id}/{badge_id} [Header: Token (Admin)] -> "OK" | Error (403/404)
+- [x] POST /admin/badge/remove/{id}/{badge_id} [Header: Token (Admin)] -> "OK" | Error (403/404)
 - [x] GET /admin/support/all [Header: Token (Admin)] -> [Support requests] | Error (403)
 - [x] DELETE /admin/support/{id} [Header: Token (Admin)] -> "Deleted" | Error (403)
 - [x] GET /admin/zones/requests [Header: Token (Admin)] -> [Zone requests] | Error (403/500)

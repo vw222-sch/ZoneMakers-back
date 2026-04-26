@@ -57,7 +57,6 @@ pub async fn post_user_handler(
         "Unset Bio",
         payload.email.clone(),
         payload.password.clone(),
-        0,    // level
         "[]", // badges
         "",   // banner_img
         0,    // theme
@@ -68,7 +67,7 @@ pub async fn post_user_handler(
         0,    // admin
     );
     connection
-        .execute("insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new_user_params)
+        .execute("insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new_user_params)
         .await
         .unwrap();
     connection
