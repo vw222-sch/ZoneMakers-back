@@ -37,6 +37,7 @@ use crate::endpoints::{
         patch_name::patch_name_handler, patch_password::patch_password_handler,
         patch_pinned_badges::patch_pinned_badges_handler, patch_theme::patch_theme_handler,
         patch_region::patch_region_handler,
+        post_rep::post_admin_rep_handler,
     }, zones::{
         delete_zone::delete_zone_handler, get_admin_zones_requests::get_admin_zones_requests_handler, get_zone_id::get_zone_id_handler, get_zones::get_zones_handler, get_zones_search::get_zones_search_handler, put_zone::put_zone_handler, post_admin_accept_zone::post_admin_accept_zone_handler, post_admin_reject_zone::post_admin_reject_zone_handler, post_zone_request::post_zone_request_handler
     }, reports::{
@@ -255,6 +256,7 @@ async fn main() {
         .route("/support", post(post_support_handler))
         .route("/admin/support/all", get(get_admin_support_all_handler))
         .route("/admin/support/{id}", delete(delete_admin_support_handler))
+        .route("/admin/user/rep", post(post_admin_rep_handler))
         .route("/admin/badge/grant/{id}/{badge_id}", post(post_admin_grant_badge_handler))
         .route("/admin/badge/remove/{id}/{badge_id}", post(post_admin_remove_badge_handler))
         .route("/notifications", get(get_notifications_handler).post(post_notification_handler))

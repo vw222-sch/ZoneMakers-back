@@ -76,6 +76,7 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] POST /admin/badge/remove/{id}/{badge_id} [Header: Token (Admin)] -> "OK" | Error (403/404)
 - [x] GET /admin/support/all [Header: Token (Admin)] -> [Support requests] | Error (403)
 - [x] DELETE /admin/support/{id} [Header: Token (Admin)] -> "Deleted" | Error (403)
+- [x] POST /admin/user/rep [Header: Token (Admin)] {user_id, rep} -> "OK" | Error (403/404)
 - [x] GET /admin/zones/requests [Header: Token (Admin)] -> [Zone requests] | Error (403/500)
 - [x] POST /admin/zones/{id}/accept [Header: Token (Admin)] -> "Zone request accepted" | Error (403/500)
 - [x] POST /admin/zones/{id}/reject [Header: Token (Admin)] -> "Zone request rejected (deleted)" | Error (403/500)
