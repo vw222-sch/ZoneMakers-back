@@ -279,7 +279,7 @@ async fn main() {
         .route("/report/posts/{page}", get(get_reports_post_handler))
         .route("/report/post/{id}", delete(delete_report_post_handler))
         .route("/travel", post(post_travel_handler))
-        .route("/travel/{page}", get(get_travel_handler))
+        .route("/travel/page/{page}", get(get_travel_handler))
         .route("/travel/{id}", delete(delete_travel_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))

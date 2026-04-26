@@ -66,7 +66,7 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] DELETE /report/post/{id} [Header: Token (Admin)] -> "Report deleted"
 
 ### Travel Log
-- [x] GET /travel/{page} -> [Travel logs] | Error (500)
+- [x] GET /travel/page/{page} -> [Travel logs] | Error (500)
 - [x] POST /travel [Header: Token] {title, message, type} -> "Travel log created" | Error (401/500)
 - [x] DELETE /travel/{id} [Header: Token] -> "Travel log deleted" | Error (401/403/404)
 
