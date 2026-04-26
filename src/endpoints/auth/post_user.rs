@@ -12,6 +12,7 @@ pub struct RegisterUser {
     email: String,
     username: String,
     password: String,
+    region: i32,
 }
 pub async fn post_user_handler(
     state: Extension<Arc<State>>,
@@ -65,9 +66,10 @@ pub async fn post_user_handler(
         "",   // avatar
         0,    // verified
         0,    // admin
+        payload.region,
     );
     connection
-        .execute("insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new_user_params)
+        .execute("insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new_user_params)
         .await
         .unwrap();
     connection

@@ -10,3 +10,4 @@ pub mod patch_name;
 pub mod patch_password;
 pub mod patch_pinned_badges;
 pub mod patch_theme;
+pub mod patch_region;

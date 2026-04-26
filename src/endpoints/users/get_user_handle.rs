@@ -21,6 +21,7 @@ struct GottenUser {
     avatar: String,
     verified: bool,
     admin: bool,
+    region: i32,
 }
 
 impl GottenUser {
@@ -38,6 +39,7 @@ impl GottenUser {
             avatar: row.get(11).unwrap(),
             verified: row.get(12).unwrap(),
             admin: row.get::<i32>(13).unwrap() == 1,
+            region: row.get(14).unwrap(),
         }
     }
 }

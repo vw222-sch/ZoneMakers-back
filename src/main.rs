@@ -35,6 +35,7 @@ use crate::endpoints::{
         patch_email::patch_email_handler, patch_handle::patch_handle_handler,
         patch_name::patch_name_handler, patch_password::patch_password_handler,
         patch_pinned_badges::patch_pinned_badges_handler, patch_theme::patch_theme_handler,
+        patch_region::patch_region_handler,
     }, zones::{
         delete_zone::delete_zone_handler, get_admin_zones_requests::get_admin_zones_requests_handler, get_zone_id::get_zone_id_handler, get_zones::get_zones_handler, get_zones_search::get_zones_search_handler, put_zone::put_zone_handler, post_admin_accept_zone::post_admin_accept_zone_handler, post_admin_reject_zone::post_admin_reject_zone_handler, post_zone_request::post_zone_request_handler
     }, reports::{
@@ -91,6 +92,7 @@ struct User {
     avatar: String,
     verified: bool,
     admin: bool,
+    region: i32,
 }
 fn token_to_claims(token: &str) -> Option<TokenClaims> {
     let valid = decode::<TokenClaims>(
@@ -121,6 +123,7 @@ impl User {
             avatar: row.get(11).unwrap(),
             verified: row.get(12).unwrap(),
             admin: row.get::<i32>(13).unwrap() == 1,
+            region: row.get(14).unwrap(),
         }
     }
 }
@@ -244,6 +247,7 @@ async fn main() {
         .route("/user/avatar", patch(patch_avatar_handler))
         .route("/user/banner", patch(patch_banner_handler))
         .route("/user/bio", patch(patch_bio_handler))
+        .route("/user/region", patch(patch_region_handler))
         .route("/user/pinned_badges", patch(patch_pinned_badges_handler))
         .route("/user/password", patch(patch_password_handler))
         .route("/support", post(post_support_handler))

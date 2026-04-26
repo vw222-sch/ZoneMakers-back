@@ -7,7 +7,7 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 ## Endpoints
 
 ### Authentication
-- [x] POST /register {email, username, password} -> {token, id} | Error (409)
+- [x] POST /register {email, username, password, region} -> {token, id} | Error (409)
 - [x] POST /login {username, password} -> {token, id} | Error (401)
 
 ### User Management
@@ -21,6 +21,7 @@ Most endpoints (except `/register` and `/login`) require a `Token` header for au
 - [x] PATCH /user/banner [Header: Token] {new_banner} -> "OK" | Error
 - [x] PATCH /user/theme [Header: Token] {new_theme} -> "OK" | Error
 - [x] PATCH /user/bio [Header: Token] {new_bio} -> "OK" | Error
+- [x] PATCH /user/region [Header: Token] {new_region} -> "OK" | Error
 - [x] PATCH /user/pinned_badges [Header: Token] {new_pinned_badges} -> "OK" | Error
 - [x] PATCH /user/password [Header: Token] {new_password} -> "OK" | Error
 
