@@ -39,6 +39,8 @@ use crate::endpoints::{
         post_report::{post_report_zone_handler, post_report_user_handler, post_report_post_handler},
         get_reports::{get_reports_zone_handler, get_reports_user_handler, get_reports_post_handler},
         delete_report::{delete_report_zone_handler, delete_report_user_handler, delete_report_post_handler},
+    }, travel::{
+        post_travel::post_travel_handler, get_travel::get_travel_handler, delete_travel::delete_travel_handler,
     }
 };
 
@@ -188,6 +190,30 @@ impl Zone {
     }
 }
 
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Travel {
+    pub id: i32,
+    pub title: String,
+    pub message: String,
+    #[serde(rename = "type")]
+    pub travel_type: String,
+    pub timestamp: String,
+    pub user_id: i32,
+}
+
+impl Travel {
+    pub fn from_row(row: Row) -> Self {
+        Travel {
+            id: row.get(0).unwrap(),
+            title: row.get(1).unwrap(),
+            message: row.get(2).unwrap(),
+            travel_type: row.get(3).unwrap(),
+            timestamp: row.get(4).unwrap(),
+            user_id: row.get(5).unwrap(),
+        }
+    }
+}
+
 struct State {
     connection: Connection,
 }
@@ -246,6 +272,9 @@ async fn main() {
         .route("/report/post", post(post_report_post_handler))
         .route("/report/posts/{page}", get(get_reports_post_handler))
         .route("/report/post/{id}", delete(delete_report_post_handler))
+        .route("/travel", post(post_travel_handler))
+        .route("/travel/{page}", get(get_travel_handler))
+        .route("/travel/{id}", delete(delete_travel_handler))
         // .route("/user", put(put_user_handler))
         // .route("/user/{token}", delete(delete_user_handler))
         .layer(Extension(state))

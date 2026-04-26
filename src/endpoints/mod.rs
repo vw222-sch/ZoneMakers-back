@@ -6,3 +6,4 @@ pub mod notifications;
 pub mod posts;
 pub mod zones;
 pub mod reports;
+pub mod travel;
