@@ -7,7 +7,7 @@ The backend is implemented as a single Axum-based web service with a local Turso
 
 ## Related Documentation
 
-- [Frontend Application Documentation](../ZoneMakers-front/README.md) - Details on the frontend architecture and user interface
+- [Frontend Application Documentation](https://github.com/vw222-sch/ZoneMakers-front) - Details on the frontend architecture and user interface
 
 ## Key Responsibilities
 - Provide secure authentication and session management for frontend users.
