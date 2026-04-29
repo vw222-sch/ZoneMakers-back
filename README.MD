@@ -5,6 +5,10 @@ This repository contains the backend service for ZoneMakers. It provides the API
 
 The backend is implemented as a single Axum-based web service with a local Turso/SQLite database.
 
+## Related Documentation
+
+- [Frontend Application Documentation](../ZoneMakers-front/README.md) - Details on the frontend architecture and user interface
+
 ## Key Responsibilities
 - Provide secure authentication and session management for frontend users.
 - Expose user profile and account management endpoints.
